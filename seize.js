@@ -37,16 +37,17 @@ $('document').ready(function(){
 				'border-width': 4,
 				'left': '-=' + newPos,
 				'top': '-=' + newPos
-				},200
+				},200, function(){ $(this).draggable(); }
 			);
 		}).mouseout(function(){
+			$(this).draggable('destroy');
 			$(this).animate({
 				'width': size,
 				'height': size,
 				'border-width': 1,
 				'left': '+=' + newPos,
 				'top': '+=' + newPos
-				},200
+				},250
 			);
 		});
 	});
