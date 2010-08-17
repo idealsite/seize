@@ -42,7 +42,7 @@ $('document').ready(function(){
 					'width' : 15,
 					'height' : 15
 					},250
-				);
+				).css('zIndex', 0);;
 			});
 			$(this).animate({
 				'left': '-=' + zoomPos,
@@ -53,7 +53,7 @@ $('document').ready(function(){
 				},300, function(){
 					$(this).draggable();
 				}
-			);
+			).css('zIndex', 1);
 		}).mouseout(function(){
 			$('.seize').not(this).each(function(i){
 				$(this).animate({
