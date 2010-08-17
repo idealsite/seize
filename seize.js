@@ -12,8 +12,12 @@ $('document').ready(function(){
 		finalX = randomXToY(50, (window.innerWidth - 150)),
 		finalY = randomXToY(50, (window.innerHeight - 150)),
 		speed = Math.round(Math.sqrt(Math.pow((finalX-startX),2)+Math.pow((finalY-startY),2)))*1.5,
-		newPos = (90-size)/2-1.5;
-		$(this).css({
+		zoomPos = (90-size)/2-1.5;
+		$(this).data({
+			'firstSize': size,
+			'unzoomPos': (size-15)/2+1.5,
+			'speed': speed
+		}).css({
 			'position': 'absolute',
 			'overflow': 'hidden',
       'left' : startX,
@@ -22,8 +26,8 @@ $('document').ready(function(){
       'height' : 10,
       'background-color' : 'rgba(' + color + ', 0.5)',
       'border' : '1px solid rgba(' + color + ', 0.8)',
-      '-moz-border-radius' : 48,
-      '-webkit-border-radius' : 48
+      '-moz-border-radius' : 50,
+      '-webkit-border-radius' : 50
 		}).delay(400).animate({
 			'left' : finalX,
 			'top' : finalY,
@@ -31,31 +35,50 @@ $('document').ready(function(){
 			'height' : size
 			},speed
 		).mouseover(function(){
+			$('.seize').not(this).each(function(i){
+				$(this).animate({
+					'left' : '+=' + $(this).data('unzoomPos'),
+					'top' : '+=' + $(this).data('unzoomPos'),
+					'width' : 15,
+					'height' : 15
+					},250
+				);
+			});
 			$(this).animate({
+				'left': '-=' + zoomPos,
+				'top': '-=' + zoomPos,
 				'width': 90,
 				'height': 90,
-				'border-width': 4,
-				'left': '-=' + newPos,
-				'top': '-=' + newPos
-				},200, function(){ $(this).draggable(); }
+				'border-width': 4
+				},300, function(){
+					$(this).draggable();
+				}
 			);
 		}).mouseout(function(){
+			$('.seize').not(this).each(function(i){
+				$(this).animate({
+					'left' : '-=' + $(this).data('unzoomPos'),
+					'top' : '-=' + $(this).data('unzoomPos'),
+					'width' : $(this).data('firstSize'),
+					'height' : $(this).data('firstSize')
+					},250
+				);
+			});
 			$(this).draggable('destroy');
 			$(this).animate({
+				'left': '+=' + zoomPos,
+				'top': '+=' + zoomPos,
 				'width': size,
 				'height': size,
-				'border-width': 1,
-				'left': '+=' + newPos,
-				'top': '+=' + newPos
-				},250
+				'border-width': 1
+				},300
 			);
 		});
 	});
 });
 
 function randomXToY(minVal,maxVal){
-  var randVal = Math.round(Math.random()*(maxVal-minVal)) + minVal;
-  return randVal;
+  return Math.round(Math.random()*(maxVal-minVal)) + minVal;
 };
 
 function randomColor(){
