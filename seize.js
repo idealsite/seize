@@ -1,3 +1,4 @@
+
 function randomXToY(minVal,maxVal){
   return Math.round(Math.random()*(maxVal-minVal)) + minVal;
 };
@@ -6,8 +7,10 @@ function randomColor(){
   var rint = Math.round(0xffffff * Math.random());
   return (rint >> 16) + ',' + (rint >> 8 & 255) + ',' + (rint & 255);
 }; // http://develobert.blogspot.com/2008/06/random-color-generation-with-javascript.html
-
-var number = randomXToY(10, 20),
+if (!number) {
+  var number = randomXToY(5,10)
+};
+var images = new Array();
 startX = Math.floor(window.innerWidth/2) - 5,
 startY = Math.floor(window.innerHeight/2) - 5;
 for (var i = 0; i < number; i++){
