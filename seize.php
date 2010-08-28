@@ -1,10 +1,14 @@
 <?php
 echo "var images = new Array(); ";
-$jsdir = "seize/images/";
-$dir = "/seize/images";
-$files = scandir($dir);
+$jsdir = "images/";
+$dir = "/images";
+$dh  = opendir($dir);
+while (false !== ($filename = readdir($dh))) {
+  $files[] = $filename;
+}
+sort($files);
 $number = count($files) - 2;
-echo "var number = $number; "
+echo "var number = $number; ";
 $k = 0; 
 for ($i = 2; $i < count($files); $i++) {
   $src = $jsdir . $files[$i];
