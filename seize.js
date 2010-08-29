@@ -7,7 +7,8 @@ function randomColor(){
   var rint = Math.round(0xffffff * Math.random());
   return (rint >> 16) + ',' + (rint >> 8 & 255) + ',' + (rint & 255);
 }; // http://develobert.blogspot.com/2008/06/random-color-generation-with-javascript.html
-if (!number) {
+
+if (number <= 0) {
   var number = randomXToY(5,10)
 };
 var images = new Array();
