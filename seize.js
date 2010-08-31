@@ -1,4 +1,3 @@
-
 function randomXToY(minVal,maxVal){
   return Math.round(Math.random()*(maxVal-minVal)) + minVal;
 };
@@ -11,7 +10,7 @@ function randomColor(){
 if (number <= 0) {
   var number = randomXToY(5,10)
 };
-var images = new Array();
+var category_0_name = "Altro",
 startX = Math.floor(window.innerWidth/2) - 5,
 startY = Math.floor(window.innerHeight/2) - 5;
 for (var i = 0; i < number; i++){
