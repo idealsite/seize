@@ -7,16 +7,31 @@ function randomColor(){
   return (rint >> 16) + ',' + (rint >> 8 & 255) + ',' + (rint & 255);
 }; // http://develobert.blogspot.com/2008/06/random-color-generation-with-javascript.html
 
+function checkCategory(){
+  
+};
+
+function hideCategory(catName){
+  $("."+catName).each(function(i){
+    $(this).delay(300).animate({
+      'left' : startX,
+      'top' : startY,
+      'width' : 10,
+      'height' : 10
+    }, 400);
+  });
+};
+
 if (number <= 0) {
-  var number = randomXToY(5,10)
+  var number = randomXToY(5,10);
 };
 var category_0_name = "Altro",
 startX = Math.floor(window.innerWidth/2) - 5,
 startY = Math.floor(window.innerHeight/2) - 5;
 for (var i = 0; i < number; i++){
-	$('#seize').append('<div class="seize" />')
+	$('#seize').append('<div class="seize lol" />')
 };
-$('.seize').each(function(i){
+$('.seize, .lol').each(function(i){
 	var size = randomXToY(30, 70),
 	color = randomColor(),
 	finalX = randomXToY(50, (window.innerWidth - 150)),

@@ -12,12 +12,13 @@ echo "var category_0_images = new Array(); ";
 $directory = "images";
 $category_0_scan = scan_dir($directory);
 $category = 0;
-$number = 0;
+$number = 0; #pre
 $category_0_number = 0;
 for ($i = 2; $i < count($category_0_scan); $i++) {
   $src = $directory . "/" . $category_0_scan[$i];
   if (is_dir($src)) {
     $category++;
+    $category_number_name = "category_" . $category . "_number";
     $category_name = "category_" . $category . "_name";
     $category_array = "category_" . $category . "_images";
     $name = str_replace("_", " ", $category_0_scan[$i]);
@@ -31,12 +32,15 @@ for ($i = 2; $i < count($category_0_scan); $i++) {
       $number++;
       $category_number++;
     }
+    echo "\nvar $category_number_name = $category_number; ";
   } else {
     echo "\ncategory_0_images[$category_0_number] = \"$src\"; ";
-    $number++;
+    $number++; #pre
     $category_0_number++;
   }
 }
-echo "\nvar number = $number; ";
+echo "\nvar number = $number; "; #pre
+echo "\nvar category_0_number = $category_0_number; ";
+
 ?>
 
