@@ -7,40 +7,36 @@ function scan_dir($dir) {
   sort($files);
   return $files;
 }
-
-echo "var category_0_images = new Array(); ";
-$directory = "images";
-$category_0_scan = scan_dir($directory);
-$category = 0;
-$number = 0; #pre
-$category_0_number = 0;
-for ($i = 2; $i < count($category_0_scan); $i++) {
-  $src = $directory . "/" . $category_0_scan[$i];
+echo "var categories = new Array(); categories[0] = new Object(); categories[0].images = new Array(); ";
+$directory = "images"; #pre
+$cat0_scan = scan_dir($directory);
+$cat_index = 0;
+$cat0_number = 0;
+for ($i = 2; $i < count($cat0_scan); $i++) {
+  $src = $directory . "/" . $cat0_scan[$i];
   if (is_dir($src)) {
-    $category++;
-    $category_number_name = "category_" . $category . "_number";
-    $category_name = "category_" . $category . "_name";
-    $category_array = "category_" . $category . "_images";
-    $name = str_replace("_", " ", $category_0_scan[$i]);
-    echo "\nvar $category_name = \"$name\", $category_array = new Array(); ";
-    $category_scan = scan_dir($src);
-    $category_number = 0;
-    for ($k = 2; $k < count($category_scan); $k++) {
-      $src .=  "/" . $category_scan[$k];
-      $category_array_image = $category_array . "[" . $category_number . "]";
-      echo "$category_array_image = \"$src\"; ";
-      $number++;
-      $category_number++;
+    $cat_index++;
+    $cat_name = "categories[" . $cat_index . "]";
+    $cat_number_name = "categories[" . $cat_index . "].number";
+    $cat_name_string = "categories[" . $cat_index . "].name";
+    $cat_array = "categories[" . $cat_index . "].images";
+    $name = str_replace("_", " ", $cat0_scan[$i]);
+    echo "$cat_name = new Object(); $cat_name_string = \"$name\"; $cat_array = new Array(); ";
+    $cat_scan = scan_dir($src);
+    $cat_number = 0;
+    for ($k = 2; $k < count($cat_scan); $k++) {
+      $src .=  "/" . $cat_scan[$k];
+      $cat_array_string = $cat_array . "[" . $cat_number . "]";
+      echo "$cat_array_string = \"$src\"; ";
+      $cat_number++;
     }
-    echo "\nvar $category_number_name = $category_number; ";
+    echo "$cat_number_name = $cat_number; ";
   } else {
-    echo "\ncategory_0_images[$category_0_number] = \"$src\"; ";
-    $number++; #pre
-    $category_0_number++;
+    echo "categories[0].images[$cat0_number] = \"$src\"; ";
+    $cat0_number++;
   }
 }
-echo "\nvar number = $number; "; #pre
-echo "\nvar category_0_number = $category_0_number; ";
-
+echo "categories[0].number = $cat0_number; ";
+echo "categories[0].name = \"Altro\"; "; #pre
 ?>
 
