@@ -39,7 +39,7 @@ function create(catIndex,color){
       'background-color': 'rgba('+col+', 0.5)',
       'border': '1px solid rgba('+col+', 0.8)',
       '-moz-border-radius': 50,
-      '-webkit-border-radius': 50,
+      '-webkit-border-radius': 50
     }).delay(500).animate({
       'left': finalX,
       'top': finalY,
@@ -47,7 +47,7 @@ function create(catIndex,color){
       'height': size
       },speed
     ).mouseover(function(){
-      $('.seize').not(this).each(function(){
+      $(this).siblings().each(function(){
         $(this).animate({
           'left': '+='+$(this).data('unzoomPos'),
           'top': '+='+$(this).data('unzoomPos'),
@@ -65,7 +65,7 @@ function create(catIndex,color){
         },350
       ).css('zIndex', 1);
     }).mouseout(function(){
-      $('.seize').not(this).each(function(){
+      $(this).siblings().each(function(){
         $(this).animate({
           'left': '-='+$(this).data('unzoomPos'),
           'top': '-='+$(this).data('unzoomPos'),
