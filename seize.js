@@ -5,7 +5,7 @@ for (var i = 0; i < categories.length; i++){
     $('#seize').append('<div class="seize cat'+i+'"/>');
   };
   if (i == 0){
-    create("0");
+    create(i);
   } else{
     create(i,randomColor());
   };
@@ -14,17 +14,19 @@ for (var i = 0; i < categories.length; i++){
 function create(catIndex,color){
   $('.cat'+catIndex).each(function(i){
     if (!color){
-      color = randomColor();
+      var col = randomColor();
+    } else{
+      var col = color;
     };
-    var size = randomXToY(30,70),
+    var size = randomXToY(30,80),
     finalX = randomXToY(50,(window.innerWidth-150)),
     finalY = randomXToY(50,(window.innerHeight-150)),
-    speed = Math.round(Math.sqrt(Math.pow((finalX-startX),2)+Math.pow((finalY-startY),2)))*1.5,
-    zoomPos = (90-size)/2-1.5;
+    speed = Math.round(Math.sqrt(Math.pow((finalX-startX),2)+Math.pow((finalY-startY),2)))*2;
     $(this).data({
       'firstSize': size,
       'firstX': finalX,
       'firstY': finalY,
+      'zoomPos': (90-size)/2-1.5,
       'unzoomPos': (size-15)/2+1.5,
       'speed': speed
     }).css({
@@ -34,10 +36,10 @@ function create(catIndex,color){
       'top': startY,
       'width': 10,
       'height': 10,
-      'background-color': 'rgba(' +color+', 0.5)',
-      'border': '1px solid rgba(' +color+', 0.8)',
+      'background-color': 'rgba('+col+', 0.5)',
+      'border': '1px solid rgba('+col+', 0.8)',
       '-moz-border-radius': 50,
-      '-webkit-border-radius': 50
+      '-webkit-border-radius': 50,
     }).delay(500).animate({
       'left': finalX,
       'top': finalY,
@@ -45,7 +47,7 @@ function create(catIndex,color){
       'height': size
       },speed
     ).mouseover(function(){
-      $('.seize').not(this).each(function(i){
+      $('.seize').not(this).each(function(){
         $(this).animate({
           'left': '+='+$(this).data('unzoomPos'),
           'top': '+='+$(this).data('unzoomPos'),
@@ -55,31 +57,28 @@ function create(catIndex,color){
         ).css('zIndex', 0);;
       });
       $(this).animate({
-        'left': '-='+zoomPos,
-        'top': '-='+zoomPos,
+        'left': '-='+$(this).data('zoomPos'),
+        'top': '-='+$(this).data('zoomPos'),
         'width': 90,
         'height': 90,
         'border-width': 4
-        },350, function(){
-          $(this).draggable();
-        }
+        },350
       ).css('zIndex', 1);
     }).mouseout(function(){
-      $('.seize').not(this).each(function(i){
+      $('.seize').not(this).each(function(){
         $(this).animate({
-          'left' : '-='+$(this).data('unzoomPos'),
-          'top' : '-='+$(this).data('unzoomPos'),
-          'width' : $(this).data('firstSize'),
-          'height' : $(this).data('firstSize')
+          'left': '-='+$(this).data('unzoomPos'),
+          'top': '-='+$(this).data('unzoomPos'),
+          'width': $(this).data('firstSize'),
+          'height': $(this).data('firstSize')
           },300
         );
       });
-      $(this).draggable('destroy');
       $(this).animate({
-        'left': '+='+zoomPos,
-        'top': '+='+zoomPos,
-        'width': size,
-        'height': size,
+        'left': '+='+$(this).data('zoomPos'),
+        'top': '+='+$(this).data('zoomPos'),
+        'width': $(this).data('firstSize'),
+        'height': $(this).data('firstSize'),
         'border-width': 1
         },350
       );
@@ -95,7 +94,7 @@ function hideCategory(catIndex){
       'width': 10,
       'height': 10
       },$(this).data('speed'),function(){
-        $(this).hide("slow");
+        $(this).hide('slow');
       }
     );
   });
@@ -103,7 +102,7 @@ function hideCategory(catIndex){
 
 function showCategory(catIndex){
   $('.cat'+catIndex).each(function(i){
-    $(this).show("slow",function(){
+    $(this).show('slow',function(){
       $(this).animate({
         'left': $(this).data('firstX'),
         'top': $(this).data('firstY'),

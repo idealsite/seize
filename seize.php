@@ -39,4 +39,3 @@ for ($i = 2; $i < count($cat0_scan); $i++) {
 echo "categories[0].number = $cat0_number; ";
 echo "categories[0].name = \"Altro\"; "; #pre
 ?>
-
