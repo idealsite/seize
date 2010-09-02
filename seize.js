@@ -14,9 +14,7 @@ for (var i = 0; i < categories.length; i++){
 function create(catIndex,color){
   $('.cat'+catIndex).each(function(i){
     if (!color){
-      var col = randomColor();
-    } else{
-      var col = color;
+      var color = randomColor();
     };
     var size = randomXToY(25,70),
     finalX = randomXToY(50,(window.innerWidth-150)),
@@ -24,6 +22,7 @@ function create(catIndex,color){
     speed = Math.round(Math.sqrt(Math.pow((finalX-startX),2)+Math.pow((finalY-startY),2)))*2,
     imageDiv = $('<div/>').css({
       'background-image': 'url('+categories[catIndex].images[i]+')',
+      'background-position': 'center center',
       'width': size,
       'height': size,
       '-moz-border-radius': 50,
@@ -34,8 +33,10 @@ function create(catIndex,color){
       'firstSize': size,
       'firstX': finalX,
       'firstY': finalY,
-      'zoomPos': (90-size)/2-1.5,
-      'unzoomPos': (size-15)/2+1.5,
+      'zoomXPos': finalX-(90-size)/2-1.5,
+      'zoomYPos': finalY-(90-size)/2-1.5,
+      'unzoomXPos': finalX+(size-15)/2,
+      'unzoomYPos': finalY+(size-15)/2,
       'speed': speed
     }).css({
       'position': 'absolute',
@@ -44,8 +45,8 @@ function create(catIndex,color){
       'top': startY,
       'width': 10,
       'height': 10,
-      'background-color': 'rgba('+col+', 0.5)',
-      'border': '1px solid rgba('+col+', 0.8)',
+      'background-color': 'rgba('+color+', 0.6)',
+      'border': '1px solid rgba('+color+', 0.8)',
       '-moz-border-radius': 50,
       '-webkit-border-radius': 50
     }).delay(500).animate({
@@ -59,22 +60,24 @@ function create(catIndex,color){
         $(this).children().animate({
           'width': 90,
           'height': 90
-          },350
-        ).delay(300).animate({
-          'opacity': 1
-          },300
+          },350, function(){
+            $(this).animate({
+              'opacity': 1
+              },350
+            );
+          }
         );
-        $(this).css('zIndex', 1).animate({
-          'left': '-='+$(this).data('zoomPos'),
-          'top': '-='+$(this).data('zoomPos'),
+        $(this).css('zIndex', 1).stop().animate({
+          'left': $(this).data('zoomXPos'),
+          'top': $(this).data('zoomYPos'),
           'width': 90,
           'height': 90,
           'border-width': 4
           },350
         ).siblings().each(function(){
-          $(this).css('zIndex', 0).animate({
-            'left': '+='+$(this).data('unzoomPos'),
-            'top': '+='+$(this).data('unzoomPos'),
+          $(this).css('zIndex', 0).stop().animate({
+            'left': $(this).data('unzoomXPos'),
+            'top': $(this).data('unzoomYPos'),
             'width': 15,
             'height': 15
             },400
@@ -82,23 +85,22 @@ function create(catIndex,color){
         });
       },
       function(){
-        $(this).children().animate({
+        $(this).children().css('opacity', 0).stop().animate({
           'width': $(this).data('firstSize'),
-          'height': $(this).data('firstSize'),
-          'opacity': 0
+          'height': $(this).data('firstSize')
           },350
         );
-        $(this).animate({
-          'left': '+='+$(this).data('zoomPos'),
-          'top': '+='+$(this).data('zoomPos'),
+        $(this).stop().animate({
+          'left': $(this).data('firstX'),
+          'top': $(this).data('firstY'),
           'width': $(this).data('firstSize'),
           'height': $(this).data('firstSize'),
           'border-width': 1
           },350
         ).siblings().each(function(){
-          $(this).animate({
-            'left': '-='+$(this).data('unzoomPos'),
-            'top': '-='+$(this).data('unzoomPos'),
+          $(this).stop().animate({
+            'left': $(this).data('firstX'),
+            'top': $(this).data('firstY'),
             'width': $(this).data('firstSize'),
             'height': $(this).data('firstSize')
             },400
