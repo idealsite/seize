@@ -25,9 +25,9 @@ for ($i = 2; $i < count($cat0_scan); $i++) {
     $cat_scan = scan_dir($src);
     $cat_number = 0;
     for ($k = 2; $k < count($cat_scan); $k++) {
-      $src .=  "/" . $cat_scan[$k];
+      $cat_src =  $src . "/" . $cat_scan[$k];
       $cat_array_string = $cat_array . "[" . $cat_number . "]";
-      echo "$cat_array_string = \"$src\"; ";
+      echo "$cat_array_string = \"$cat_src\"; ";
       $cat_number++;
     }
     echo "$cat_number_name = $cat_number; ";
