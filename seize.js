@@ -28,7 +28,10 @@ function create(catIndex,color){
       '-moz-border-radius': 50,
       '-webkit-border-radius': 50,
       'opacity': 0
-    });
+    }),
+    imageDivBigWidth = categories[catIndex].images[i].w,
+    imageDivBigHeight = categories[catIndex].images[i].h;
+    alert(imageDivBigWidth);
     $(this).data({
       'firstSize': size,
       'firstX': finalX,
