@@ -7,7 +7,9 @@ function scan_dir($dir) {
   sort($files);
   return $files;
 }
-echo "var categories = new Array(); categories[0] = new Object(); categories[0].images = new Array(); ";
+echo "var categories = new Array(); ";
+echo "categories[0] = new Object(); ";
+echo "categories[0].images = new Array(); ";
 $directory = "images"; #pre
 $cat0_scan = scan_dir($directory);
 $cat_index = 0;
@@ -21,18 +23,28 @@ for ($i = 2; $i < count($cat0_scan); $i++) {
     $cat_name_string = "categories[" . $cat_index . "].name";
     $cat_array = "categories[" . $cat_index . "].images";
     $name = str_replace("_", " ", $cat0_scan[$i]);
-    echo "$cat_name = new Object(); $cat_name_string = \"$name\"; $cat_array = new Array(); ";
+    echo "$cat_name = new Object(); ";
+    echo "$cat_name_string = \"$name\"; ";
+    echo "$cat_array = new Array(); ";
     $cat_scan = scan_dir($src);
     $cat_number = 0;
     for ($k = 2; $k < count($cat_scan); $k++) {
       $cat_src =  $src . "/" . $cat_scan[$k];
       $cat_array_string = $cat_array . "[" . $cat_number . "]";
+      $width = getimagesize($cat_scan[$k])[0];
+      $height = getimagesize($cat_scan[$k])[1];
       echo "$cat_array_string = \"$cat_src\"; ";
+      echo "$cat_array_string.width = $width; ";
+      echo "$cat_array_string.height = $height; ";
       $cat_number++;
     }
     echo "$cat_number_name = $cat_number; ";
   } else {
+    $width = getimagesize($cat0_scan[$i])[0];
+    $height = getimagesize($cat0_scan[$i])[1];
     echo "categories[0].images[$cat0_number] = \"$src\"; ";
+    echo "categories[0].images[$cat0_number].width = $width; ";
+    echo "categories[0].images[$cat0_number].height = $height; ";
     $cat0_number++;
   }
 }
