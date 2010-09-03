@@ -21,7 +21,7 @@ function create(catIndex,color){
     finalY = randomXToY(50,(window.innerHeight-150)),
     speed = Math.round(Math.sqrt(Math.pow((finalX-startX),2)+Math.pow((finalY-startY),2)))*2,
     imageDiv = $('<div/>').css({
-      'background-image': 'url('+categories[catIndex].images[i]+')',
+      'background-image': 'url('+categories[catIndex].images[i].src+')',
       'background-position': 'center center',
       'width': size,
       'height': size,
@@ -29,9 +29,8 @@ function create(catIndex,color){
       '-webkit-border-radius': 50,
       'opacity': 0
     }),
-    imageDivBigWidth = categories[catIndex].images[i].w,
-    imageDivBigHeight = categories[catIndex].images[i].h;
-    alert(imageDivBigWidth);
+    imageDivBigWidth = categories[catIndex].images[i].width,
+    imageDivBigHeight = categories[catIndex].images[i].height;
     $(this).data({
       'firstSize': size,
       'firstX': finalX,
@@ -109,6 +108,13 @@ function create(catIndex,color){
             },400
           );
         });
+      }
+    ).toggle(
+      function(){
+        
+      },
+      function(){
+        
       }
     ).append(imageDiv);
   });
