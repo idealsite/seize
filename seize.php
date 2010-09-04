@@ -34,8 +34,8 @@ for ($i = 2; $i < count($cat0_scan); $i++) {
       $size = getimagesize($cat_src);
       echo "$cat_array_string = new Object(); ";
       echo "$cat_array_string.src = \"$cat_src\"; ";
-      echo "$cat_array_string.width = $size[0]; ";
-      echo "$cat_array_string.height = $size[1]; ";
+      echo "$cat_array_string.w = $size[0]; ";
+      echo "$cat_array_string.h = $size[1]; ";
       $cat_number++;
     }
     echo "$cat_number_name = $cat_number; ";
@@ -43,8 +43,8 @@ for ($i = 2; $i < count($cat0_scan); $i++) {
     $size = getimagesize($src);
     echo "categories[0].images[$cat0_number] = new Object(); ";
     echo "categories[0].images[$cat0_number].src = \"$src\"; ";
-    echo "categories[0].images[$cat0_number].width = $size[0]; ";
-    echo "categories[0].images[$cat0_number].height = $size[1]; ";
+    echo "categories[0].images[$cat0_number].w = $size[0]; ";
+    echo "categories[0].images[$cat0_number].h = $size[1]; ";
     $cat0_number++;
   }
 }
