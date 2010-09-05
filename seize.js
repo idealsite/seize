@@ -15,7 +15,7 @@ function create(catIndex,color){
   $('.cat'+catIndex).each(function(i){
     if (!color){
       var color = randomColor();
-    };
+    }; //uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuhhhhhhh??? bug
     var size = randomXToY(25,70),
     finalX = randomXToY(50,(window.innerWidth-150)),
     finalY = randomXToY(50,(window.innerHeight-150)),
@@ -58,48 +58,67 @@ function create(catIndex,color){
       'height': size
       },speed
     ).hover(mouseEnter, mouseLeave)
-    .click(showImage)
-    .append(imageDiv);
+    .toggle(
+      function(){
+        showImage(this);
+      },
+      function(){
+        hideImage(this);
+      }
+    ).append(imageDiv);
   });
 };
 
-function showImage(){
-  $('.seize').unbind('mouseenter mouseleave click');
-  $(this).stop().animate({
-    'left': startX-($(this).data('imageBigWidth')/2),
-    'top': startY-($(this).data('imageBigHeight')/2),
-    'width': $(this).data('imageBigWidth'),
-    'height': $(this).data('imageBigHeight'),
+function showImage(target){
+  $('.seize').unbind('mouseenter mouseleave').not(target).unbind('click');
+  $(target).stop().animate({
+    'left': startX-($(target).data('imageBigWidth')/2),
+    'top': startY-($(target).data('imageBigHeight')/2),
+    'width': $(target).data('imageBigWidth'),
+    'height': $(target).data('imageBigHeight'),
     'border-width': 4,
     '-moz-border-radius': 4,
     '-webkit-border-radius': 4
     },500
-  ).children().animate({
-    'width': $(this).data('imageBigWidth'),
-    'height': $(this).data('imageBigHeight'),
+  ).children().stop().animate({
+    'width': $(target).data('imageBigWidth'),
+    'height': $(target).data('imageBigHeight'),
+    'opacity': 1,
     '-moz-border-radius': 0,
     '-webkit-border-radius': 0
     },500
   );
 };
 
-function hideImage(){
-  $(this).children().css('opacity', 0).stop().animate({
-    'width': $(this).data('firstSize'),
-    'height': $(this).data('firstSize'),
+function hideImage(target){
+  $(target).children().css('opacity', 0).stop().animate({
+    'width': $(target).data('firstSize'),
+    'height': $(target).data('firstSize'),
     '-moz-border-radius': 50,
     '-webkit-border-radius': 50
     },500
   );
-  $(this).stop().animate({
-    'left': $(this).data('firstX'),
-    'top': $(this).data('firstY'),
-    'width': $(this).data('firstSize'),
-    'height': $(this).data('firstSize'),
+  $(target).stop().animate({
+    'left': $(target).data('firstX'),
+    'top': $(target).data('firstY'),
+    'width': $(target).data('firstSize'),
+    'height': $(target).data('firstSize'),
     'border-width': 1,
     '-moz-border-radius': 50,
     '-webkit-border-radius': 50
-    },500
+    },500, function(){
+      $('.seize').each(function(){
+        $(this).hover(mouseEnter, mouseLeave)
+        .toggle(
+          function(){
+            showImage(this);
+          },
+          function(){
+            hideImage(this);
+          }
+        );
+      });
+    }
   ).siblings().each(function(){
     $(this).stop().animate({
       'left': $(this).data('firstX'),
