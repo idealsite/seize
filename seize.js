@@ -4,18 +4,19 @@ for (var i = 0; i < categories.length; i++){
   for (var k = 0; k < categories[i].number; k++){
     $('#seize').append('<div class="seize cat'+i+'"/>');
   };
-  if (i == 0){
-    create(i);
-  } else{
-    create(i,randomColor());
+  if (i != 0){
+    categories[i].color = randomColor();
   };
+  create(i);
 };
 
-function create(catIndex,color){
+function create(catIndex){
   $('.cat'+catIndex).each(function(i){
-    if (!color){
+    if (categories[catIndex].color){
+      var color = categories[catIndex].color;
+    } else{
       var color = randomColor();
-    }; //uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuhhhhhhh??? bug
+    };
     var size = randomXToY(25,70),
     finalX = randomXToY(50,(window.innerWidth-150)),
     finalY = randomXToY(50,(window.innerHeight-150)),
