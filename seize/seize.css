@@ -1,0 +1,16 @@
+.seize {
+  position: absolute;
+  overflow: hidden;
+  width: 10px;
+  height: 10px;
+  -moz-border-radius: 50px;
+  -webkit-border-radius: 50px;
+  border-radius: 50px;
+  }
+.seize > div {
+  background-position: center;
+  -moz-border-radius: 50px;
+  -webkit-border-radius: 50px;
+  border-radius: 50px;
+  opacity: 0;
+  }

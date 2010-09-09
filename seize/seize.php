@@ -10,7 +10,7 @@ function scan_dir($dir) {
 echo "var categories = new Array(); ";
 echo "categories[0] = new Object(); ";
 echo "categories[0].images = new Array(); ";
-$directory = "images"; #pre
+$directory = "images";
 $cat0_scan = scan_dir($directory);
 $cat_index = 0;
 $cat0_number = 0;
@@ -33,7 +33,7 @@ for ($i = 2; $i < count($cat0_scan); $i++) {
       $cat_array_string = $cat_array . "[" . $cat_number . "]";
       $size = getimagesize($cat_src);
       echo "$cat_array_string = new Object(); ";
-      echo "$cat_array_string.src = \"$cat_src\"; ";
+      echo "$cat_array_string.src = \"seize/$cat_src\"; ";
       echo "$cat_array_string.w = $size[0]; ";
       echo "$cat_array_string.h = $size[1]; ";
       $cat_number++;
@@ -42,7 +42,7 @@ for ($i = 2; $i < count($cat0_scan); $i++) {
   } else {
     $size = getimagesize($src);
     echo "categories[0].images[$cat0_number] = new Object(); ";
-    echo "categories[0].images[$cat0_number].src = \"$src\"; ";
+    echo "categories[0].images[$cat0_number].src = \"seize/$src\"; ";
     echo "categories[0].images[$cat0_number].w = $size[0]; ";
     echo "categories[0].images[$cat0_number].h = $size[1]; ";
     $cat0_number++;

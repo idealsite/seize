@@ -1,5 +1,6 @@
 var startX = Math.floor(window.innerWidth/2)-5;
 var startY = Math.floor(window.innerHeight/2)-5;
+var imageShown = false, globalIndex = 0;
 for (var i = 0; i < categories.length; i++){
   for (var k = 0; k < categories[i].number; k++){
     $('#seize').append('<div class="seize cat'+i+'"/>');
@@ -23,12 +24,8 @@ function create(catIndex){
     speed = Math.round(Math.sqrt(Math.pow((finalX-startX),2)+Math.pow((finalY-startY),2)))*2,
     imageDiv = $('<div/>').css({
       'background-image': 'url('+categories[catIndex].images[i].src+')',
-      'background-position': 'center center',
       'width': size,
-      'height': size,
-      '-moz-border-radius': 50,
-      '-webkit-border-radius': 50,
-      'opacity': 0
+      'height': size
     });
     $(this).data({
       'firstSize': size,
@@ -40,18 +37,13 @@ function create(catIndex){
       'unzoomYPos': finalY+(size-15)/2,
       'imageBigWidth': categories[catIndex].images[i].w,
       'imageBigHeight': categories[catIndex].images[i].h,
+      'index': globalIndex,
       'speed': speed
     }).css({
-      'position': 'absolute',
-      'overflow': 'hidden',
       'left': startX,
       'top': startY,
-      'width': 10,
-      'height': 10,
       'background-color': 'rgba('+color+', 0.6)',
-      'border': '1px solid rgba('+color+', 0.8)',
-      '-moz-border-radius': 50,
-      '-webkit-border-radius': 50
+      'border': '1px solid rgba('+color+', 0.8)'
     }).delay(500).animate({
       'left': finalX,
       'top': finalY,
@@ -59,19 +51,19 @@ function create(catIndex){
       'height': size
       },speed
     ).hover(mouseEnter, mouseLeave)
-    .toggle(
-      function(){
+    .click(function(){
+        if (imageShown){
+          hideImage();
+        };
         showImage(this);
-      },
-      function(){
-        hideImage(this);
-      }
-    ).append(imageDiv);
+    }).append(imageDiv);
+    globalIndex++;
   });
 };
 
 function showImage(target){
-  $('.seize').unbind('mouseenter mouseleave').not(target).unbind('click');
+  imageShown = $(target).data('index');
+  $('.seize').unbind('mouseenter mouseleave');
   $(target).stop().animate({
     'left': startX-($(target).data('imageBigWidth')/2),
     'top': startY-($(target).data('imageBigHeight')/2),
@@ -91,33 +83,31 @@ function showImage(target){
   );
 };
 
-function hideImage(target){
-  $(target).children().css('opacity', 0).stop().animate({
-    'width': $(target).data('firstSize'),
-    'height': $(target).data('firstSize'),
+function hideImage(){
+  $('.seize').eq(imageShown).children().css('opacity', 0).stop().animate({
+    'width': $('.seize').eq(imageShown).data('firstSize'),
+    'height': $('.seize').eq(imageShown).data('firstSize'),
     '-moz-border-radius': 50,
     '-webkit-border-radius': 50
     },500
   );
-  $(target).stop().animate({
-    'left': $(target).data('firstX'),
-    'top': $(target).data('firstY'),
-    'width': $(target).data('firstSize'),
-    'height': $(target).data('firstSize'),
+  $('.seize').eq(imageShown).stop().animate({
+    'left': $('.seize').eq(imageShown).data('firstX'),
+    'top': $('.seize').eq(imageShown).data('firstY'),
+    'width': $('.seize').eq(imageShown).data('firstSize'),
+    'height': $('.seize').eq(imageShown).data('firstSize'),
     'border-width': 1,
     '-moz-border-radius': 50,
     '-webkit-border-radius': 50
     },500, function(){
       $('.seize').each(function(){
         $(this).hover(mouseEnter, mouseLeave)
-        .toggle(
-          function(){
-            showImage(this);
-          },
-          function(){
-            hideImage(this);
-          }
-        );
+        .click(function(){
+          if (imageShown != false){
+            hideImage();
+          };
+          showImage(this);
+        });
       });
     }
   ).siblings().each(function(){
@@ -129,6 +119,7 @@ function hideImage(target){
       },400
     );
   });
+  imageShown = false;
 };
 
 function mouseEnter(){
