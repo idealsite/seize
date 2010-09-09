@@ -1,6 +1,6 @@
 var startX = Math.floor(window.innerWidth/2)-5;
 var startY = Math.floor(window.innerHeight/2)-5;
-var imageShown = false, globalIndex = 0;
+var imageShown = -1, globalIndex = 0;
 for (var i = 0; i < categories.length; i++){
   for (var k = 0; k < categories[i].number; k++){
     $('#seize').append('<div class="seize cat'+i+'"/>');
@@ -52,7 +52,7 @@ function create(catIndex){
       },speed
     ).hover(mouseEnter, mouseLeave)
     .click(function(){
-        if (imageShown){
+        if (imageShown != -1){
           hideImage();
         };
         showImage(this);
@@ -101,13 +101,7 @@ function hideImage(){
     '-webkit-border-radius': 50
     },500, function(){
       $('.seize').each(function(){
-        $(this).hover(mouseEnter, mouseLeave)
-        .click(function(){
-          if (imageShown != false){
-            hideImage();
-          };
-          showImage(this);
-        });
+        $(this).hover(mouseEnter, mouseLeave);
       });
     }
   ).siblings().each(function(){
@@ -119,7 +113,7 @@ function hideImage(){
       },400
     );
   });
-  imageShown = false;
+  imageShown = -1;
 };
 
 function mouseEnter(){
